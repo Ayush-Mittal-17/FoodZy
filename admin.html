@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - FoodZy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #f6d365 50%, #fda085 75%, #ff9a9e 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #333;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .admin-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .admin-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .admin-header h1 {
+      color: #2d3436;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .admin-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #2d3436;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .admin-table th,
+    .admin-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .admin-table th {
+      background-color: #ffeaa7;
+      color: #2d3436;
+      font-weight: 600;
+    }
+
+    .admin-table tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .btn-delete {
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-delete:hover {
+      background-color: #ff5252;
+    }
+
+    /* Admin Panel Submit Button */
+    .admin-form .btn-primary {
+      padding: 0.8rem 1.5rem;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      width: auto;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      background-color: #ff6b00;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .admin-form .btn-primary:hover {
+      background-color: #e05e00;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">
+          <h1>FoodZy</h1>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="admin.html" class="active">Admin Panel</a></li>
+            <li><a href="chatbot.html">Chat Bot</a></li>
+            <li><a href="analytics.html">Dashboard</a></li>
+            <li><a href="aboutus.html">About</a></li>
+          </ul>
+        </nav>
+        <div class="nav-buttons">
+          <div id="userDisplay" style="display: none;">
+            <span id="userName" style="margin-right: 15px;"></span>
+            <button class="btn btn-outline" onclick="logout()">Logout</button>
+          </div>
+          <div id="authButtons">
+            <button class="btn btn-outline" onclick="window.location.href='signup.html'">Sign In</button>
+            <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <div class="admin-panel">
+      <div class="admin-header">
+        <h1>Admin Panel</h1>
+        <p>Manage food recommendations and categories</p>
+      </div>
+
+      <form id="food-form" class="admin-form">
+        <div class="form-group">
+          <label for="food-name">Food Name</label>
+          <input type="text" id="food-name" placeholder="Enter food name" required />
+        </div>
+        <div class="form-group">
+          <label for="food-taste">Taste</label>
+          <select id="food-taste" required>
+            <option value="">Select Taste</option>
+            <option value="spicy">Spicy</option>
+            <option value="sweet">Sweet</option>
+            <option value="veg">Vegetarian</option>
+            <option value="nonveg">Non-Vegetarian</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="food-category">Weather Category</label>
+          <select id="food-category" required>
+            <option value="">Select Weather Category</option>
+            <option value="hot">Hot</option>
+            <option value="cold">Cold</option>
+            <option value="rainy">Rainy</option>
+            <option value="mild">Mild</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="food-description">Description</label>
+          <input type="text" id="food-description" placeholder="Enter food description" required />
+        </div>
+        <div class="form-group">
+          <label for="food-image">Image URL</label>
+          <input type="url" id="food-image" placeholder="Enter image URL" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Food</button>
+      </form>
+
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Food Name</th>
+            <th>Taste</th>
+            <th>Weather Category</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="food-list">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="app-download">
+          <button class="app-btn">
+            <i class="fab fa-apple"></i>
+            <span>App Store</span>
+          </button>
+          <button class="app-btn">
+            <i class="fab fa-google-play"></i>
+            <span>Google Play</span>
+          </button>
+        </div>
+      </div>
+      <div class="footer-content">
+        <div class="footer-col">
+          <h4>About Us</h4>
+          <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>For Restaurants</h4>
+          <ul>
+            <li><a href="#">Partner with us</a></li>
+            <li><a href="#">Apps</a></li>
+            <li><a href="#">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>For Riders</h4>
+          <ul>
+            <li><a href="#">Become a Rider</a></li>
+            <li><a href="#">Earnings</a></li>
+            <li><a href="#">Cities</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 FoodZy. All right reserved</p>
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    function checkAdminAccess() {
+      const user = localStorage.getItem('user');
+      if (!user) {
+        alert('Please login to access the admin panel');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const userData = JSON.parse(user);
+      if (userData.role !== 'admin') {
+        alert('Access denied. Admin privileges required.');
+        window.location.href = 'index.html';
+        return;
+      }
+    }
+
+    function saveDishes(dishes) {
+      localStorage.setItem('foodzyDishes', JSON.stringify(dishes));
+    }
+
+    function loadDishes() {
+      const dishes = JSON.parse(localStorage.getItem('foodzyDishes') || '[]');
+      const foodList = document.getElementById('food-list');
+      foodList.innerHTML = '';
+
+      dishes.forEach((dish, index) => {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td>${dish.name}</td>
+          <td>${dish.taste}</td>
+          <td>${dish.category}</td>
+          <td>${dish.description}</td>
+          <td>
+            <button class="btn-delete" onclick="deleteDish(${index})">Delete</button>
+          </td>
+        `;
+        foodList.appendChild(newRow);
+      });
+    }
+
+    function deleteDish(index) {
+      const dishes = JSON.parse(localStorage.getItem('foodzyDishes') || '[]');
+      dishes.splice(index, 1);
+      saveDishes(dishes);
+      loadDishes();
+    }
+
+    document.getElementById('food-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const dish = {
+        name: document.getElementById('food-name').value,
+        taste: document.getElementById('food-taste').value,
+        category: document.getElementById('food-category').value,
+        description: document.getElementById('food-description').value,
+        image: document.getElementById('food-image').value
+      };
+
+      const dishes = JSON.parse(localStorage.getItem('foodzyDishes') || '[]');
+      dishes.push(dish);
+      saveDishes(dishes);
+      loadDishes();
+      this.reset();
+    });
+
+    window.addEventListener('load', function() {
+      checkAdminAccess();
+      loadDishes();
+    });
+
+    function checkLoginStatus() {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const userData = JSON.parse(user);
+        document.getElementById('userDisplay').style.display = 'flex';
+        document.getElementById('authButtons').style.display = 'none';
+        document.getElementById('userName').textContent = `Welcome, ${userData.name}`;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'index.html';
+    }
+
+    window.onload = checkLoginStatus;
+  </script>
+</body>
+</html>

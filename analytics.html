@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - FoodZy</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #f6d365 50%, #fda085 75%, #ff9a9e 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #333;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .analytics-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .analytics-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .analytics-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .analytics-header h1 {
+            color: #2d3436;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-container {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            height: 400px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #2d3436;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .chart-wrapper {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            height: 400px;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-title {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .filter-section {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background: #e74c3c;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: #c0392b;
+        }
+
+        .filter-btn.active {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <h1>FoodZy</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="admin.html">Admin Panel</a></li>
+                        <li><a href="chatbot.html">Chat Bot</a></li>
+                        <li><a href="analytics.html" class="active">Dashboard</a></li>
+                        <li><a href="aboutus.html">About</a></li>
+                    </ul>
+                </nav>
+                <div class="nav-buttons">
+                    <div id="userDisplay" style="display: none;">
+                        <span id="userName" style="margin-right: 15px;"></span>
+                        <button class="btn btn-outline" onclick="logout()">Logout</button>
+                    </div>
+                    <div id="authButtons">
+                        <button class="btn btn-outline" onclick="window.location.href='signup.html'">Sign In</button>
+                        <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="analytics-container">
+        <div class="analytics-panel">
+            <div class="analytics-header">
+                <h1>Analytics Dashboard</h1>
+                <p>Track food recommendations and user preferences</p>
+            </div>
+
+            <div class="filter-section">
+                <button class="filter-btn active" onclick="updateCharts('all')">All Time</button>
+                <button class="filter-btn" onclick="updateCharts('week')">This Week</button>
+                <button class="filter-btn" onclick="updateCharts('month')">This Month</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalRecommendations">0</h3>
+                    <p>Total Recommendations</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="uniqueUsers">0</h3>
+                    <p>Unique Users</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="avgRecommendations">0</h3>
+                    <p>Avg. Recommendations per User</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="topCategory">-</h3>
+                    <p>Most Popular Category</p>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-wrapper">
+                    <div class="chart-title">Top Recommended Foods</div>
+                    <div class="chart-container">
+                        <canvas id="foodChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart-title">Recommendations by Weather</div>
+                    <div class="chart-container">
+                        <canvas id="weatherChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-wrapper">
+                    <div class="chart-title">User Preferences by Taste</div>
+                    <div class="chart-container">
+                        <canvas id="tasteChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart-title">Recommendation Trends</div>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="app-download">
+                    <button class="app-btn">
+                        <i class="fab fa-apple"></i>
+                        <span>App Store</span>
+                    </button>
+                    <button class="app-btn">
+                        <i class="fab fa-google-play"></i>
+                        <span>Google Play</span>
+                    </button>
+                </div>
+            </div>
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>For Restaurants</h4>
+                    <ul>
+                        <li><a href="#">Partner with us</a></li>
+                        <li><a href="#">Apps</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>For Riders</h4>
+                    <ul>
+                        <li><a href="#">Become a Rider</a></li>
+                        <li><a href="#">Earnings</a></li>
+                        <li><a href="#">Cities</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="nav.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing charts...');
+            
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js is not loaded!');
+                return;
+            }
+
+            let foodChart, weatherChart, tasteChart, trendChart;
+
+            const chartColors = {
+                primary: 'rgba(255, 107, 0, 0.7)',
+                secondary: 'rgba(52, 152, 219, 0.7)',
+                tertiary: 'rgba(46, 204, 113, 0.7)',
+                quaternary: 'rgba(155, 89, 182, 0.7)'
+            };
+
+            function initializeCharts() {
+                console.log('Initializing charts...');
+
+                try {
+                    const foodCtx = document.getElementById('foodChart');
+                    if (!foodCtx) {
+                        console.error('Food chart canvas not found!');
+                        return;
+                    }
+                    console.log('Creating food chart...');
+                    foodChart = new Chart(foodCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Test1', 'Test2', 'Test3'],
+                            datasets: [{
+                                label: 'Recommendations',
+                                data: [10, 20, 30],
+                                backgroundColor: chartColors.primary,
+                                borderColor: chartColors.primary.replace('0.7', '1'),
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                                },
+                                x: {
+                                    grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                                }
+                            }
+                        }
+                    });
+
+                    const weatherCtx = document.getElementById('weatherChart');
+                    if (!weatherCtx) {
+                        console.error('Weather chart canvas not found!');
+                        return;
+                    }
+                    console.log('Creating weather chart...');
+                    weatherChart = new Chart(weatherCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Hot', 'Cold', 'Rainy', 'Mild'],
+                            datasets: [{
+                                data: [25, 20, 15, 30],
+                                backgroundColor: [
+                                    chartColors.primary,
+                                    chartColors.secondary,
+                                    chartColors.tertiary,
+                                    chartColors.quaternary
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+
+                    const tasteCtx = document.getElementById('tasteChart');
+                    if (!tasteCtx) {
+                        console.error('Taste chart canvas not found!');
+                        return;
+                    }
+                    console.log('Creating taste chart...');
+                    tasteChart = new Chart(tasteCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Sweet', 'Spicy', 'Veg', 'Non-veg'],
+                            datasets: [{
+                                data: [30, 25, 40, 35],
+                                backgroundColor: [
+                                    chartColors.primary,
+                                    chartColors.secondary,
+                                    chartColors.tertiary,
+                                    chartColors.quaternary
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+
+                    const trendCtx = document.getElementById('trendChart');
+                    if (!trendCtx) {
+                        console.error('Trend chart canvas not found!');
+                        return;
+                    }
+                    console.log('Creating trend chart...');
+                    trendChart = new Chart(trendCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                            datasets: [{
+                                label: 'Daily Recommendations',
+                                data: [12, 19, 15, 17, 22],
+                                borderColor: chartColors.primary,
+                                tension: 0.4,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                                },
+                                x: {
+                                    grid: { color: 'rgba(0, 0, 0, 0.1)' }
+                                }
+                            }
+                        }
+                    });
+
+                    console.log('All charts initialized successfully!');
+                } catch (error) {
+                    console.error('Error initializing charts:', error);
+                }
+            }
+
+            initializeCharts();
+
+            function updateCharts(timeFilter) {
+                console.log('Updating charts with time filter:', timeFilter);
+                try {
+                    const recommendationStats = JSON.parse(localStorage.getItem("recommendationStats") || '{}');
+                    const weatherStats = JSON.parse(localStorage.getItem("weatherStats") || '{}');
+                    const tasteStats = JSON.parse(localStorage.getItem("tasteStats") || '{}');
+                    const trendData = JSON.parse(localStorage.getItem("trendData") || '[]');
+                    const userStats = JSON.parse(localStorage.getItem("userStats") || '{}');
+
+                    const totalRecommendations = Object.values(recommendationStats).reduce((a, b) => a + b, 0);
+                    
+                    document.getElementById('totalRecommendations').textContent = totalRecommendations;
+                    document.getElementById('uniqueUsers').textContent = Object.keys(userStats).length;
+                    document.getElementById('avgRecommendations').textContent = 
+                        (totalRecommendations / Math.max(1, Object.keys(userStats).length)).toFixed(1);
+
+                    const topCategory = Object.entries(recommendationStats)
+                        .sort((a, b) => b[1] - a[1])[0];
+                    document.getElementById('topCategory').textContent = topCategory ? topCategory[0] : '-';
+
+                    const topFoods = Object.entries(recommendationStats)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 10);
+                    
+                    if (foodChart) {
+                        foodChart.data.labels = topFoods.map(item => item[0]);
+                        foodChart.data.datasets[0].data = topFoods.map(item => item[1]);
+                        foodChart.update();
+                    }
+
+                    if (weatherChart) {
+                        weatherChart.data.datasets[0].data = [
+                            weatherStats.hot || 0,
+                            weatherStats.cold || 0,
+                            weatherStats.rainy || 0,
+                            weatherStats.mild || 0
+                        ];
+                        weatherChart.update();
+                    }
+
+                    if (tasteChart) {
+                        tasteChart.data.datasets[0].data = [
+                            tasteStats.sweet || 0,
+                            tasteStats.spicy || 0,
+                            tasteStats.veg || 0,
+                            tasteStats.nonveg || 0
+                        ];
+                        tasteChart.update();
+                    }
+
+                    if (trendChart) {
+                        const filteredTrendData = filterTrendData(trendData, timeFilter);
+                        trendChart.data.labels = filteredTrendData.map(item => item.date);
+                        trendChart.data.datasets[0].data = filteredTrendData.map(item => item.count);
+                        trendChart.update();
+                    }
+
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                        if (btn.textContent.toLowerCase().includes(timeFilter)) {
+                            btn.classList.add('active');
+                        }
+                    });
+
+                    console.log('Charts updated successfully');
+                } catch (error) {
+                    console.error('Error updating charts:', error);
+                }
+            }
+
+            function filterTrendData(data, timeFilter) {
+                const now = new Date();
+                const filtered = data.filter(item => {
+                    const itemDate = new Date(item.date);
+                    switch(timeFilter) {
+                        case 'week':
+                            return (now - itemDate) <= 7 * 24 * 60 * 60 * 1000;
+                        case 'month':
+                            return (now - itemDate) <= 30 * 24 * 60 * 60 * 1000;
+                        default:
+                            return true;
+                    }
+                });
+                return filtered;
+            }
+
+            function checkLoginStatus() {
+                const user = localStorage.getItem('user');
+                if (user) {
+                    const userData = JSON.parse(user);
+                    document.getElementById('userDisplay').style.display = 'flex';
+                    document.getElementById('authButtons').style.display = 'none';
+                    document.getElementById('userName').textContent = `Welcome, ${userData.name}`;
+                }
+            }
+
+            function logout() {
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            }
+
+            checkLoginStatus();
+            updateCharts('all');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - FoodZy</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #f6d365 50%, #fda085 75%, #ff9a9e 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .about-section {
+            padding: 80px 0;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about-header h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .about-header p {
+            font-size: 1.2em;
+            color: #34495e;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2.5em;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 0;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5em;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            color: #34495e;
+            font-size: 1.1em;
+        }
+
+        .team-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 50px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: #e74c3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+        }
+
+        .team-member h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .team-member p {
+            color: #34495e;
+        }
+
+        .mission-vision {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 0;
+            margin: 40px 0;
+            border-radius: 20px;
+        }
+
+        .mission-vision-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .mission-vision h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .mission-vision p {
+            color: #34495e;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <h1>FoodZy</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="admin.html">Admin Panel</a></li>
+                        <li><a href="chatbot.html">Chat Bot</a></li>
+                        <li><a href="analytics.html">Dashboard</a></li>
+                        <li><a href="aboutus.html" class="active">About</a></li>
+                    </ul>
+                </nav>
+                <div class="nav-buttons">
+                    <div id="userDisplay" style="display: none;">
+                        <span id="userName" style="margin-right: 15px;"></span>
+                        <button class="btn btn-outline" onclick="logout()">Logout</button>
+                    </div>
+                    <div id="authButtons">
+                        <button class="btn btn-outline" onclick="window.location.href='signup.html'">Sign In</button>
+                        <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="about-header">
+                <h1>Welcome to FoodZy</h1>
+                <p>Your intelligent food companion that combines weather insights with personalized food recommendations to enhance your dining experience.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-cloud-sun"></i>
+                    <h3>Weather-Based Recommendations</h3>
+                    <p>Get personalized food suggestions based on current weather conditions in your area, ensuring the perfect meal for any climate.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Smart Food Matching</h3>
+                    <p>Our AI-powered system analyzes weather patterns and your taste preferences to suggest the most suitable dishes for your current mood.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Location Intelligence</h3>
+                    <p>Access real-time weather data and food recommendations for any city worldwide, making it easy to plan your meals anywhere.</p>
+                </div>
+            </div>
+
+            <div class="mission-vision">
+                <div class="mission-vision-content">
+                    <h2>Our Mission</h2>
+                    <p>To revolutionize the way people choose their food by combining weather insights with culinary preferences, creating a more intuitive and enjoyable dining experience.</p>
+                    <h2>Our Vision</h2>
+                    <p>To become the world's most trusted platform for weather-based food recommendations, helping people make better food choices that complement their environment and mood.</p>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>100</h3>
+                        <p>Weather-based Recommendations</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>200+</h3>
+                        <p>Cities Covered</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>10+</h3>
+                        <p>Happy Users</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>100+</h3>
+                        <p>Food Recommendations Made</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="team-section">
+    <div class="container">
+        <h2 class="section-title">About Developer</h2>
+        <div class="team-grid">
+            
+            <div class="team-member">
+                <div class="member-img" style="background: url('https://t4.ftcdn.net/jpg/10/61/06/07/360_F_1061060734_ItsG4Tla3cVwzJYb03apjiy6cv1y8Pks.jpg') center/cover no-repeat; border: 4px solid #e74c3c;"></div>
+
+                <h3>AYUSH MITTAL</h3>
+                <p style="font-weight: 600; color: #e74c3c;">Full Stack Web Developer</p>
+                <p>Hi, I'm Ayush — a passionate <strong>Full Stack Web Developer </strong>with expertise in <strong>front-end and back-end technologies</strong>. I've worked on multiple <strong>full-stack projects</strong>, explored <strong>JavaScript and React</strong>, and built <strong>scalable projects</strong> that solves real life problems. Always curious, always building and always ready to learn and grow. 🚀</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://github.com/Ayush-Mittal-17" target="_blank" style="margin: 0 10px; color:#333;"><i class="fab fa-github fa-lg"></i></a>
+                    <a href="https://www.linkedin.com/in/ayushmittal17/" target="_blank" style="margin: 0 10px; color:#0077b5;"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <a href="mailto:mittalayush989@gmail.com" style="margin: 0 10px; color:#e74c3c;"><i class="fas fa-envelope fa-lg"></i></a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="app-download">
+                    <button class="app-btn">
+                        <i class="fab fa-apple"></i>
+                        <span>App Store</span>
+                    </button>
+                    <button class="app-btn">
+                        <i class="fab fa-google-play"></i>
+                        <span>Google Play</span>
+                    </button>
+                </div>
+            </div>
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>For Restaurants</h4>
+                    <ul>
+                        <li><a href="#">Partner with us</a></li>
+                        <li><a href="#">Apps</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>For Riders</h4>
+                    <ul>
+                        <li><a href="#">Become a Rider</a></li>
+                        <li><a href="#">Earnings</a></li>
+                        <li><a href="#">Cities</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            if (user) {
+                const userData = JSON.parse(user);
+                document.getElementById('userDisplay').style.display = 'flex';
+                document.getElementById('authButtons').style.display = 'none';
+                document.getElementById('userName').textContent = `Welcome, ${userData.name}`;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        window.onload = checkLoginStatus;
+    </script>
+    <script src="nav.js"></script>
+</body>
+</html>

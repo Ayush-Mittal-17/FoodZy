@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot - FoodZy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #f6d365 50%, #fda085 75%, #ff9a9e 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: #333;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .chatbot-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .chatbot-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .chatbot-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .chatbot-header h1 {
+      color: #2d3436;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #chat-output {
+      width: 100%;
+      height: 400px;
+      overflow-y: auto;
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    #typing-indicator {
+      font-style: italic;
+      color: #636e72;
+      margin-bottom: 1rem;
+    }
+
+    #chat-input {
+      display: flex;
+      gap: 1rem;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    #send-btn {
+      padding: 0.8rem 2rem;
+      background-color: #ff6b00;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #send-btn:hover {
+      background-color: #ff5252;
+    }
+
+    .message {
+      margin: 1rem 0;
+      padding: 0.8rem;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
+
+    .bot-message {
+      background: #ffeaa7;
+    }
+
+    .user-message {
+      background: #dfe6e9;
+    }
+
+    .message strong {
+      color: #2d3436;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">
+          <h1>FoodZy</h1>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="admin.html">Admin Panel</a></li>
+            <li><a href="chatbot.html" class="active">Chat Bot</a></li>
+            <li><a href="analytics.html">Dashboard</a></li>
+            <li><a href="aboutus.html">About</a></li>
+          </ul>
+        </nav>
+        <div class="nav-buttons">
+          <div id="userDisplay" style="display: none;">
+            <span id="userName" style="margin-right: 15px;"></span>
+            <button class="btn btn-outline" onclick="logout()">Logout</button>
+          </div>
+          <div id="authButtons">
+            <button class="btn btn-outline" onclick="window.location.href='signup.html'">Sign In</button>
+            <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="chatbot-container">
+    <div class="chatbot-panel">
+      <div class="chatbot-header">
+        <h1>FoodZy Chatbot</h1>
+        <p>Get personalized food recommendations based on weather</p>
+      </div>
+
+      <div id="chat-output"></div>
+      <div id="typing-indicator"></div>
+      <div id="chat-input">
+        <input type="text" id="user-input" placeholder="Ask about food recommendations..." />
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="app-download">
+          <button class="app-btn">
+            <i class="fab fa-apple"></i>
+            <span>App Store</span>
+          </button>
+          <button class="app-btn">
+            <i class="fab fa-google-play"></i>
+            <span>Google Play</span>
+          </button>
+        </div>
+      </div>
+      <div class="footer-content">
+        <div class="footer-col">
+          <h4>About Us</h4>
+          <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>For Restaurants</h4>
+          <ul>
+            <li><a href="#">Partner with us</a></li>
+            <li><a href="#">Apps</a></li>
+            <li><a href="#">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>For Riders</h4>
+          <ul>
+            <li><a href="#">Become a Rider</a></li>
+            <li><a href="#">Earnings</a></li>
+            <li><a href="#">Cities</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const foodSuggestions = {
+    hello: "Hello there! I'm here to make your day tastier! Ask me for food suggestions!",
+    hi: "Hiya! Ready to explore some delicious food ideas?",
+    hey: "Hey hey! Let's find something yummy for you!",
+    rainy: "Rainy days are perfect for crispy pakoras, warm samosas, and a cup of masala chai!",
+    sunny: "Sunny vibes! How about some refreshing fruit juices, crunchy salads, or a scoop of ice cream?",
+    cold: "Brrr! Stay cozy with hot soups, steaming momos, and spicy curries!",
+    hot: "Feeling the heat? Cool down with chilled smoothies, cold coffee, or a juicy watermelon salad!",
+    cloudy: "Cloudy skies call for warm coffee, gooey brownies, and some cozy vibes!",
+    humid: "It's humid! Stay light with coconut water, fresh fruit bowls, and simple meals!",
+    windy: "Windy weather? Treat yourself to hot chocolate, grilled sandwiches, and baked goodies!",
+    "how it works": "It's simple! Just tell me the weather, and I'll suggest the perfect food for the mood!",
+    "recommendation system": "I use weather keywords to suggest popular and tasty food options. Try it out!",
+    "update profile": "No need to update anything! Just chat with me and enjoy personalized food recommendations!",
+    breakfast: "Start your day with pancakes, scrambled eggs, or a bowl of fresh fruit and yogurt!",
+    lunch: "For lunch, try a hearty sandwich, a bowl of pasta, or a fresh salad!",
+    dinner: "Dinner time! How about some grilled chicken, a veggie stir-fry, or a comforting bowl of soup?",
+    dessert: "Craving something sweet? Indulge in chocolate cake, ice cream, or a warm apple pie!",
+    snacks: "Snack time! Grab some popcorn, nachos, or a handful of mixed nuts!",
+    spicy: "Feeling adventurous? Try spicy tacos, hot wings, or a fiery curry!",
+    sweet: "Satisfy your sweet tooth with donuts, cupcakes, or a creamy milkshake!",
+    savory: "For savory cravings, go for a cheesy pizza, garlic bread, or a loaded burger!",
+    healthy: "Stay healthy with a quinoa salad, avocado toast, or a green smoothie!",
+    comfort: "Need comfort food? Mac and cheese, mashed potatoes, or a warm bowl of chili are perfect!",
+    exotic: "Explore exotic flavors with sushi, pad thai, or a Moroccan tagine!",
+    festive: "Celebrate with biryani, roasted turkey, or a festive cake!",
+    quick: "In a hurry? Grab a sandwich, a wrap, or a quick bowl of noodles!",
+    traditional: "Enjoy traditional dishes like butter chicken, lasagna, or shepherd's pie!",
+    vegan: "Try vegan delights like tofu stir-fry, lentil soup, or a vegan burger!",
+    glutenfree: "For gluten-free options, go for rice bowls, grilled fish, or a fresh fruit salad!",
+    drinks: "Thirsty? Sip on lemonade, iced tea, or a refreshing mojito!",
+    party: "Hosting a party? Serve sliders, mini pizzas, or a platter of finger foods!",
+    romantic: "Planning a romantic dinner? Go for pasta, wine, and a decadent dessert!",
+    kids: "For kids, try mini burgers, chicken nuggets, or colorful cupcakes!",
+    picnic: "Pack sandwiches, fruit, and cookies for a perfect picnic!",
+    travel: "On the go? Carry granola bars, trail mix, or a wrap for easy snacking!",
+    workout: "Post-workout? Refuel with a protein shake, boiled eggs, or a banana!",
+    movie: "Movie night? Popcorn, nachos, and a fizzy drink are must-haves!",
+    celebration: "Celebrate with a cake, sparkling drinks, and some delicious appetizers!",
+    cozy: "Stay cozy with hot cocoa, marshmallows, and a warm blanket!",
+    streetfood: "Craving street food? Try pani puri, kebabs, or a hot dog!",
+    seafood: "Love seafood? Go for grilled salmon, shrimp tacos, or a seafood paella!",
+    barbecue: "Fire up the grill for barbecue ribs, corn on the cob, and grilled veggies!",
+    festive: "Festive vibes? Enjoy plum cake, roasted turkey, and mulled wine!",
+    brunch: "Brunch time! Try eggs benedict, waffles, or avocado toast!",
+    midnight: "Midnight snack? Grab some cookies, instant noodles, or a slice of leftover pizza!",
+    exotic: "Feeling adventurous? Try sushi, dim sum, or a spicy Thai curry!",
+    light: "Keep it light with a Caesar salad, a veggie wrap, or a bowl of soup!",
+    hearty: "For a hearty meal, go for steak, baked potatoes, or a rich stew!",
+    tropical: "Tropical vibes? Enjoy a pina colada, mango salsa, or coconut shrimp!",
+    festive: "Celebrate with biryani, roasted turkey, or a festive cake!",
+    indulgent: "Treat yourself to a chocolate fondue, a loaded milkshake, or a rich cheesecake!",
+    seasonal: "Seasonal treats? Try pumpkin pie, fresh berries, or a watermelon salad!"
+    };
+
+    function getUserName() {
+        const user = localStorage.getItem('user');
+        if (user) {
+            const userData = JSON.parse(user);
+            return userData.name;
+        }
+        return "Foodie";
+    }
+
+    let userName = getUserName();
+
+    const chatOutput = document.getElementById("chat-output");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const typingIndicator = document.getElementById("typing-indicator");
+
+    function addMessage(sender, message, isBot = false) {
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message");
+      msgDiv.classList.add(isBot ? "bot-message" : "user-message");
+      msgDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+      chatOutput.appendChild(msgDiv);
+      chatOutput.scrollTop = chatOutput.scrollHeight;
+    }
+
+    function botResponse(userText) {
+      userText = userText.toLowerCase();
+      const keywords = Object.keys(foodSuggestions);
+      for (let keyword of keywords) {
+        if (userText.includes(keyword)) {
+          return foodSuggestions[keyword];
+        }
+      }
+      return "Sorry, I couldn't understand! Please mention the weather (like sunny, rainy, cold) for suggestions.";
+    }
+
+    function simulateBotTyping(text) {
+      typingIndicator.textContent = "FoodZyBot is typing...";
+      setTimeout(() => {
+        typingIndicator.textContent = "";
+        addMessage("FoodZyBot", text, true);
+      }, 1000);
+    }
+
+    sendBtn.addEventListener("click", () => {
+      const text = userInput.value.trim();
+      if (text !== "") {
+        addMessage(userName, text);
+        const reply = botResponse(text);
+        simulateBotTyping(reply);
+        userInput.value = "";
+      }
+    });
+
+    userInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        sendBtn.click();
+      }
+    });
+
+    const welcomeMessage = `Hello ${userName}! Welcome to FoodZy 🍽️. Tell me the weather and I'll suggest some tasty food!`;
+    simulateBotTyping(welcomeMessage);
+
+    function checkLoginStatus() {
+        const user = localStorage.getItem('user');
+        if (user) {
+            const userData = JSON.parse(user);
+            document.getElementById('userDisplay').style.display = 'flex';
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userName').textContent = `Welcome, ${userData.name}`;
+            if (userName !== userData.name) {
+                userName = userData.name;
+                const newWelcomeMessage = `Hello ${userName}! Welcome to FoodZy 🍽️. Tell me the weather and I'll suggest some tasty food!`;
+                simulateBotTyping(newWelcomeMessage);
+            }
+        }
+    }
+
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'index.html';
+    }
+
+    window.onload = checkLoginStatus;
+  </script>
+  <script src="nav.js"></script>
+</body>
+</html>

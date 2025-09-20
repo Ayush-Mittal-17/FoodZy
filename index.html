@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodZy - Food Delivery Service</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <h1>FoodZy</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="admin.html">Admin Panel</a></li>
+                        <li><a href="chatbot.html">Chat Bot</a></li>
+                        <li><a href="analytics.html">Dashboard</a></li>
+                        <li><a href="aboutus.html">About</a></li>
+                    </ul>
+                </nav>
+                <div class="nav-buttons">
+                    <div id="userDisplay" style="display: none;">
+                        <span id="userName" style="margin-right: 15px;"></span>
+                        <button class="btn btn-outline" onclick="logout()">Logout</button>
+                    </div>
+                    <div id="authButtons">
+                        <button class="btn btn-outline" onclick="window.location.href='signup.html'">Sign In</button>
+                        <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Craving the Perfect Bite?</h1>
+                    <p class="p1">Let the Weather Decide!</p>
+                    <p class="p2">Get personalized food recommendations based on your location</p>
+                    <a href="recommendation.html" class="btn btn-primary recommendation-btn">Get Food Recommendations Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trending">
+        <div class="container">
+            <h2 class="section-title">Trending Dishes</h2>
+            <div class="dishes-grid">
+                <div class="dish-card">
+                    <div class="dish-img dish-img-1"></div>
+                    <h3>Pasta Carbonara</h3>
+                </div>
+                <div class="dish-card">
+                    <div class="dish-img dish-img-2"></div>
+                    <h3>Fresh Salad Bowl</h3>
+                </div>
+                <div class="dish-card">
+                    <div class="dish-img dish-img-3"></div>
+                    <h3>Pepperoni Pizza</h3>
+                </div>
+                <div class="dish-card">
+                    <div class="dish-img dish-img-4"></div>
+                    <h3>Classic Burger</h3>
+                </div>
+                <div class="dish-card">
+                    <div class="dish-img dish-img-5"></div>
+                    <h3>Spicy Ramen</h3>
+                </div>
+                <div class="dish-card">
+                    <div class="dish-img dish-img-6"></div>
+                    <h3>Chicken Curry</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="restaurants">
+        <div class="container">
+            <h2 class="section-title">Popular Restaurants</h2>
+            <div class="restaurant-logos">
+                <div class="logo-item">
+                    <div class="restaurant-logo mcdonalds"></div>
+                </div>
+                <div class="logo-item">
+                    <div class="restaurant-logo kfc"></div>
+                </div>
+                <div class="logo-item">
+                    <div class="restaurant-logo pizzahut"></div>
+                </div>
+                <div class="logo-item">
+                    <div class="restaurant-logo burgerking"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="perfect-bites">
+        <div class="container">
+            <div class="bites-content">
+                <div class="bites-icons left-icons">
+                    <div class="food-icon food-icon-1"></div>
+                    <div class="food-icon food-icon-2"></div>
+                </div>
+                <div class="bites-text">
+                    <div class="bites-header">
+                        <div class="bites-badge">FOODERY</div>
+                        <h2>Perfect Bites for Every Forecast</h2>
+                    </div>
+                    <p>Choose hot soup on rainy days or iced coffee when it's warm out. We've got you covered with dishes perfect for every weather, making right for the time.</p>
+                </div>
+                <div class="bites-icons right-icons">
+                    <div class="food-icon food-icon-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>100+</h3>
+                    <p>Dishes recommended by weather</p>
+                    <div class="stat-icon restaurant-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <h3>200+</h3>
+                    <p>cities covered</p>
+                    <div class="stat-icon location-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <h3>10+</h3>
+                    <p>happy customers</p>
+                    <div class="stat-icon customer-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-grid">
+                <div class="cta-card partner">
+                    <div class="cta-content">
+                        <h3>Partner with us</h3>
+                        <p>Join our network of restaurants and grow your business</p>
+                        <button class="btn btn-primary">Coming Soon!</button>
+                    </div>
+                </div>
+                <div class="cta-card rider">
+                    <div class="cta-content">
+                        <h3>Ride with us</h3>
+                        <p>Become a delivery partner and earn on your schedule</p>
+                        <button class="btn btn-primary">Coming Soon!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="app-download">
+                    <button class="app-btn">
+                        <i class="fab fa-apple"></i>
+                        <span>App Store</span>
+                    </button>
+                    <button class="app-btn">
+                        <i class="fab fa-google-play"></i>
+                        <span>Google Play</span>
+                    </button>
+                </div>
+            </div>
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>For Restaurants</h4>
+                    <ul>
+                        <li><a href="#">Partner with us</a></li>
+                        <li><a href="#">Apps</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>For Riders</h4>
+                    <ul>
+                        <li><a href="#">Become a Rider</a></li>
+                        <li><a href="#">Earnings</a></li>
+                        <li><a href="#">Cities</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FoodZy. All right reserved</p>
+                <div class="footer-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Policy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+        function checkLoginStatus() {
+            const user = localStorage.getItem('user');
+            if (user) {
+                const userData = JSON.parse(user);
+                document.getElementById('userDisplay').style.display = 'flex';
+                document.getElementById('authButtons').style.display = 'none';
+                document.getElementById('userName').textContent = `Welcome, ${userData.name}`;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+
+        window.onload = checkLoginStatus;
+    </script>
+
+    <script src="nav.js"></script>
+</body>
+</html>
